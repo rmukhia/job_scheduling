@@ -27,9 +27,6 @@ class Processor
         void setSetupTimeMatrix();
         void printSetupTimeMatrix();
 
-        void setJobsDueDates();
-        void printJobsDueDates();
-
         void setJobDetails();
         void setMachineDetails();
 

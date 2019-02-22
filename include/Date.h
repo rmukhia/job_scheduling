@@ -24,7 +24,7 @@ class Date
         int days_difference(const Date &d);
 
         friend std::ostream& operator<<(std::ostream& os, const Date& dt);
-
+        Date& operator= (const Date &date);
     protected:
 
     private:

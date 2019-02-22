@@ -28,56 +28,29 @@ int main()
     processor->setMachineDetails();
 
     cout << std::endl;
+    std::cout << "-----------" << std::endl;
     cout << "SSUT Result" << std::endl;
     processor->clearMachines();
     processor->scheduleJobs(Processor::SSUIT);
     processor->printResults();
+    std::cout << "-----------" << std::endl;
 
     cout << std::endl;
+    std::cout << "-----------" << std::endl;
     cout << "EDD Result" << std::endl;
     processor->clearMachines();
     processor->scheduleJobs(Processor::EDD);
     processor->printResults();
+    std::cout << "-----------" << std::endl;
 
     cout << std::endl;
+    std::cout << "-----------" << std::endl;
     cout << "SPT Result" << std::endl;
     processor->clearMachines();
     processor->scheduleJobs(Processor::SPT);
     processor->printResults();
+    std::cout << "-----------" << std::endl;
 
-    cout << std::endl;
-    cout << "SSUT Result" << std::endl;
-    cout << "Machine 1:" << std::endl;
-    cout << "Completion Time: " << "6000 minutes" << std::endl;
-    cout << "Tardiness Time: " << "0 day" << std::endl;
-    cout << "Total Setup Time: " << "3 minutes" << std::endl;
-    cout << "Machine 2:" << std::endl;
-    cout << "Completion Time: " << "7800 minutes" << std::endl;
-    cout << "Tardiness Time: " << "0 day" << std::endl;
-    cout << "Total Setup Time: " << "10 minutes" << std::endl;
-    cout << "Makespan Time: " << "4-2-2018" << std::endl;
-
-    cout << "EDD Result" << std::endl;
-    cout << "Machine 1:" << std::endl;
-    cout << "Completion Time: " << "6000 minutes" << std::endl;
-    cout << "Tardiness Time: " << "1 day" << std::endl;
-    cout << "Total Setup Time: " << "3 minutes" << std::endl;
-    cout << "Machine 2:" << std::endl;
-    cout << "Completion Time: " << "7800 minutes" << std::endl;
-    cout << "Tardiness Time: " << "0 day" << std::endl;
-    cout << "Total Setup Time: " << "10 minutes" << std::endl;
-    cout << "Makespan Time: " << "4-2-2018" << std::endl;
-
-    cout << "SPT Result" << std::endl;
-    cout << "Machine 1:" << std::endl;
-    cout << "Completion Time: " << "6000 minutes" << std::endl;
-    cout << "Tardiness Time: " << "1 day" << std::endl;
-    cout << "Total Setup Time: " << "3 minutes" << std::endl;
-    cout << "Machine 2:" << std::endl;
-    cout << "Completion Time: " << "3000 minutes" << std::endl;
-    cout << "Tardiness Time: " << "0 day" << std::endl;
-    cout << "Total Setup Time: " << "10 minutes" << std::endl;
-    cout << "Makespan Time: " << "4-2-2018" << std::endl;
     cout << std::endl;
     cout << "Enter number of new jobs: " << endl;
 

@@ -46,8 +46,7 @@ int Date::compare(const Date& d)
 
 int Date::getDayForMonth(int month, int year)
 {
-    int days_per_month[] =
-    {
+    int days_per_month[] = {
         31, //jan
         28, //feb
         31,
@@ -75,25 +74,23 @@ void Date::addMinutes(int minutes)
 {
     int minu = this->minutes;
     minu += minutes;
-    while(minu > SHIFT_PER_DAY)
-    {
+    while(minu > SHIFT_PER_DAY) {
         minu -= SHIFT_PER_DAY; // remove one shift
         date += 1; // increase date
         int days_in_month = getDayForMonth(month, year);
-        if (date > days_in_month) // increase month
-        {
+        if (date > days_in_month) { // increase month
             date = 1;
             month += 1;
         }
-        if (month > 12) // increase year
-        {
+        if (month > 12) { // increase year
             month = 1;
             year += 1;
         }
     }
 }
 
-int Date::rdn(int y, int m, int d) { /* Rata Die day one is 0001-01-01 */
+int Date::rdn(int y, int m, int d)   /* Rata Die day one is 0001-01-01 */
+{
     if (m < 3)
         y--, m += 12;
     return 365*y + y/4 - y/100 + y/400 + (153*m - 457)/5 + d - 306;
@@ -101,6 +98,16 @@ int Date::rdn(int y, int m, int d) { /* Rata Die day one is 0001-01-01 */
 
 int Date::days_difference(const Date& d)
 {
-    return rdn(year, month, date) - rdn(d.year, d.month, d.date);
+    int days = rdn(year, month, date) - rdn(d.year, d.month, d.date);
+    return days;
 }
 
+
+Date& Date::operator=(const Date& d)
+{
+    year = d.year;
+    month = d.month;
+    date = d.date;
+    minutes = d.minutes;
+    return *this;
+}

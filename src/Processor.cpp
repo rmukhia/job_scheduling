@@ -16,8 +16,7 @@ Processor::~Processor()
 void Processor::setNumJobs(int num_jobs)
 {
     this->num_jobs = num_jobs;
-    for (int i=1; i <= num_jobs; i++)
-    {
+    for (int i=1; i <= num_jobs; i++) {
         Job *job = new Job(i);
         this->jobs.push_back(job);
     }
@@ -31,8 +30,7 @@ int Processor::getNumJobs()
 void Processor::setNumMachines(int num_machines)
 {
     int new_machines = num_machines - this->num_machines;
-    for(int i =0; i< new_machines; i++)
-    {
+    for(int i =0; i< new_machines; i++) {
         Machine *machine = new Machine();
         machine->setId(i + 1);
         this->machines.push_back(machine);
@@ -49,8 +47,7 @@ void Processor::setSetupTimeMatrix()
 {
     this->setup_time = new int*[num_jobs + 1];
 
-    for(int i =0; i <= num_jobs; i++)
-    {
+    for(int i =0; i <= num_jobs; i++) {
         this->setup_time[i] = new int[num_jobs + 1];
         for(int j=0; j <= num_jobs; j++)
             std::cin >> this->setup_time[i][j];
@@ -59,8 +56,7 @@ void Processor::setSetupTimeMatrix()
 
 void Processor::printSetupTimeMatrix()
 {
-    for(int i = 0; i <= num_jobs; i++)
-    {
+    for(int i = 0; i <= num_jobs; i++) {
         for(int j = 0; j <= num_jobs; j++)
             std::cout << this->setup_time[i][j] << " ";
         std::cout << std::endl;
@@ -69,8 +65,7 @@ void Processor::printSetupTimeMatrix()
 
 void Processor::setJobDetails()
 {
-    for(unsigned int i = 0; i < jobs.size(); i++)
-    {
+    for(unsigned int i = 0; i < jobs.size(); i++) {
         Job *job = jobs[i];
         int duration, machine_priority;
         char str[16];
@@ -88,22 +83,13 @@ void Processor::setMachineDetails()
     char date[16];
     std::cout << "Enter machine start date (dd-mm-yyyy): " << std::endl;
     std::cin >> date;
+    Machine *machine;
 
-    for(unsigned int i = 0; i < machines.size(); i++)
-    {
-        Machine *machine = machines[i];
-        machine->getStartDate().parse_date(date);
+    for(unsigned int i = 0; i < machines.size(); i++) {
+        machine = machines[i];
+        machine->start_date.parse_date(date);
+        machine->current_date.parse_date(date);
     }
-}
-
-void Processor::setJobsDueDates()
-{
-
-}
-
-void Processor::printJobsDueDates()
-{
-
 }
 
 
@@ -113,22 +99,18 @@ std::vector<Job*> Processor::ssuit_schedule(Machine *machine, std::vector<Job*> 
     int job_id = machine->getLastJobId();
     int *setup_time_cur_job = setup_time[job_id];
     int shortest_setup_time = 999999;
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (job->getId() != job_id &&
-                shortest_setup_time > setup_time_cur_job[job->getId()])
-        {
+                shortest_setup_time > setup_time_cur_job[job->getId()]) {
             shortest_setup_time = setup_time_cur_job[job->getId()];
         }
     }
 
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (job->getId() != job_id &&
-                setup_time_cur_job[job->getId()] == shortest_setup_time)
-        {
+                setup_time_cur_job[job->getId()] == shortest_setup_time) {
             result.push_back(job);
         }
     }
@@ -140,8 +122,7 @@ std::vector<Job*> Processor::edd_schedule(Machine* machine, std::vector<Job*>job
 {
     std::vector<Job*> result;
     Job *edd_job = 0x0;
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (!edd_job) edd_job = job;
 
@@ -150,11 +131,9 @@ std::vector<Job*> Processor::edd_schedule(Machine* machine, std::vector<Job*>job
         }
     }
 
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
-        if (edd_job->getDueDate().compare(job->getDueDate()) == 0)
-        {
+        if (edd_job->getDueDate().compare(job->getDueDate()) == 0) {
             result.push_back(job);
         }
     }
@@ -166,8 +145,7 @@ std::vector<Job*> Processor::spt_schedule(Machine* machine, std::vector<Job*>job
 {
     std::vector<Job*> result;
     Job *spt_job = 0x0;
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (!spt_job) spt_job = job;
 
@@ -176,11 +154,9 @@ std::vector<Job*> Processor::spt_schedule(Machine* machine, std::vector<Job*>job
         }
     }
 
-    for (unsigned int i =0; i< jobs.size(); i++)
-    {
+    for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
-        if (spt_job->getDuration() == job->getDuration())
-        {
+        if (spt_job->getDuration() == job->getDuration()) {
             result.push_back(job);
         }
     }
@@ -191,46 +167,38 @@ std::vector<Job*> Processor::spt_schedule(Machine* machine, std::vector<Job*>job
 void Processor::scheduleJobs(RULE rule)
 {
     std::vector<Job *> jobs_ = jobs;
-    while(jobs_.size() > 0 )
-    {
+    while(jobs_.size() > 0 ) {
         Machine *machine = findNextToProcessMachine();
         std::vector<Job*> result;
-        switch (rule)
-        {
+        switch (rule) {
         case Processor::SSUIT:
             result = ssuit_schedule(machine, jobs_);
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = edd_schedule(machine, result);
             }
 
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = spt_schedule(machine, result);
             }
 
             break;
         case Processor::SPT:
             result = spt_schedule(machine, jobs_);
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = edd_schedule(machine, result);
             }
 
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = ssuit_schedule(machine, result);
             }
             break;
         case Processor::EDD:
             result = edd_schedule(machine, jobs_);
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = spt_schedule(machine, result);
             }
 
-            if (result.size() > 1)
-            {
+            if (result.size() > 1) {
                 result = ssuit_schedule(machine, result);
             }
             break;
@@ -246,8 +214,7 @@ void Processor::scheduleJobs(RULE rule)
 Machine *Processor::findNextToProcessMachine()
 {
     Machine *next = machines.front();
-    for(unsigned int i =0; i< machines.size(); i++)
-    {
+    for(unsigned int i =0; i< machines.size(); i++) {
         Machine *machine = machines[i];
         if (!next)
             next = machine;
@@ -259,16 +226,22 @@ Machine *Processor::findNextToProcessMachine()
 
 void Processor::printResults()
 {
-    for(unsigned int i = 0; i < machines.size(); i++)
-    {
+    Date *makespan = 0x0;
+    for(unsigned int i = 0; i < machines.size(); i++) {
         machines[i]->printResults();
+        if (!makespan) makespan = &machines[i]->current_date;
+        if (machines[i]->getCurrentDate().compare(*makespan) > 0) {
+            makespan = &machines[i]->current_date;
+            makespan = &machines[i]->current_date;
+        }
     }
+    std::cout << std::endl;
+    std::cout << "Makespan: " << (*makespan) << std::endl;
 }
 
 void Processor::clearMachines()
 {
-    for(unsigned int i = 0; i < machines.size(); i++)
-    {
+    for(unsigned int i = 0; i < machines.size(); i++) {
         machines[i]->clearMachine();
     }
 

@@ -22,16 +22,15 @@ class Machine
         Date getStartDate();
         void setStartDate(Date date);
         Date getCurrentDate();
-        void addMinutesToCurrentDate(int minutes);
-
+        Date start_date;
+        Date current_date;
     protected:
     private:
         int id;
         std::vector<Job*> jobs;
         int total_time; // in minutes
         int total_setup_time;
-        Date start_date;
-        Date current_date;
+        int tardiness;
 };
 
 #endif // MACHINE_H

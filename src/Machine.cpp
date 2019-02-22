@@ -5,6 +5,7 @@ Machine::Machine()
 {
     total_time = 0;
     total_setup_time = 0;
+    tardiness = 0;
 }
 
 Machine::~Machine()
@@ -32,6 +33,9 @@ void Machine::addJob(Job* job, int setup_time)
     jobs.push_back(job);
     total_time += job->getDuration() + setup_time;
     total_setup_time += setup_time;
+    current_date.addMinutes(setup_time + job->getDuration());
+    int tard = current_date.days_difference(job->getDueDate());
+    if ( tard > 0) tardiness += tard;
 }
 
 Job * Machine::peekJob()
@@ -57,12 +61,15 @@ void Machine::printResults()
     std::cout << std::endl;
     std::cout << "Completion Time: " << total_time << " minutes." << std::endl;
     std::cout << "Total Setup Time: " << total_setup_time << " minutes." << std::endl;
+    std::cout << "Tardiness: " << tardiness << " days." << std::endl;
 }
 
 void Machine::clearMachine()
 {
     jobs.clear();
-    total_setup_time = total_time = 0;
+    tardiness = total_setup_time = total_time = 0;
+
+    current_date = start_date;
 }
 
 Date Machine::getStartDate()
@@ -70,19 +77,9 @@ Date Machine::getStartDate()
     return start_date;
 }
 
-void Machine::setStartDate(Date date)
-{
-    start_date = date;
-}
-
 Date Machine::getCurrentDate()
 {
     return current_date;
-}
-
-void Machine::addMinutesToCurrentDate(int minutes)
-{
-
 }
 
 
