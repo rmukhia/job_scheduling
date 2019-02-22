@@ -101,6 +101,8 @@ std::vector<Job*> Processor::ssuit_schedule(Machine *machine, std::vector<Job*> 
     int shortest_setup_time = 999999;
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
         if (job->getId() != job_id &&
                 shortest_setup_time > setup_time_cur_job[job->getId()]) {
             shortest_setup_time = setup_time_cur_job[job->getId()];
@@ -109,6 +111,8 @@ std::vector<Job*> Processor::ssuit_schedule(Machine *machine, std::vector<Job*> 
 
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
         if (job->getId() != job_id &&
                 setup_time_cur_job[job->getId()] == shortest_setup_time) {
             result.push_back(job);
@@ -125,6 +129,8 @@ std::vector<Job*> Processor::edd_schedule(Machine* machine, std::vector<Job*>job
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (!edd_job) edd_job = job;
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
 
         if(edd_job->getDueDate().compare(job->due_date) > 0) {
             edd_job = job;
@@ -133,6 +139,8 @@ std::vector<Job*> Processor::edd_schedule(Machine* machine, std::vector<Job*>job
 
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
         if (edd_job->getDueDate().compare(job->getDueDate()) == 0) {
             result.push_back(job);
         }
@@ -148,7 +156,8 @@ std::vector<Job*> Processor::spt_schedule(Machine* machine, std::vector<Job*>job
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (!spt_job) spt_job = job;
-
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
         if( spt_job->getDuration() > job->getDuration()) {
             spt_job = job;
         }
@@ -156,6 +165,8 @@ std::vector<Job*> Processor::spt_schedule(Machine* machine, std::vector<Job*>job
 
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
+        if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
+            break;
         if (spt_job->getDuration() == job->getDuration()) {
             result.push_back(job);
         }
