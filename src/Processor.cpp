@@ -13,10 +13,10 @@ Processor::~Processor()
     //dtor
 }
 
-void Processor::setNumJobs(int num_jobs)
+void Processor::setNumJobs(int num_jobs, int last_job)
 {
     this->num_jobs = num_jobs;
-    for (int i=1; i <= num_jobs; i++) {
+    for (int i=last_job + 1; i <= num_jobs; i++) {
         Job *job = new Job(i);
         this->jobs.push_back(job);
     }
@@ -63,9 +63,9 @@ void Processor::printSetupTimeMatrix()
     }
 }
 
-void Processor::setJobDetails()
+void Processor::setJobDetails(int last_job)
 {
-    for(unsigned int i = 0; i < jobs.size(); i++) {
+    for(unsigned int i = last_job; i < jobs.size(); i++) {
         Job *job = jobs[i];
         int duration, machine_priority;
         char str[16];

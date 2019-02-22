@@ -18,7 +18,7 @@ class Processor
         Processor();
         virtual ~Processor();
 
-        void setNumJobs(int num_jobs);
+        void setNumJobs(int num_jobs, int last_job);
         int getNumJobs();
 
         void setNumMachines(int num_machines);
@@ -27,7 +27,7 @@ class Processor
         void setSetupTimeMatrix();
         void printSetupTimeMatrix();
 
-        void setJobDetails();
+        void setJobDetails(int last_job);
         void setMachineDetails();
 
         void scheduleJobs(RULE rule);
