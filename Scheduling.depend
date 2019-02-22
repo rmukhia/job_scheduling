@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1550829288 source:/home/rmukhia/code/sched/Scheduling/main.cpp
+	<iostream>
+	"Processor.h"
+
+1550155237 source:/home/rmukhia/code/sched/Scheduling/src/Job.cpp
+	"Job.h"
+
+1550155580 /home/rmukhia/code/sched/Scheduling/include/Job.h
+	<iostream>
+	<ctime>
+	"Date.h"
+
+1550824141 source:/home/rmukhia/code/sched/Scheduling/src/Processor.cpp
+	"Processor.h"
+	<iostream>
+	<algorithm>
+
+1550828454 /home/rmukhia/code/sched/Scheduling/include/Processor.h
+	<iostream>
+	<vector>
+	"Job.h"
+	"Machine.h"
+
+1550824009 source:/home/rmukhia/code/sched/Scheduling/src/Machine.cpp
+	"Machine.h"
+	<iostream>
+
+1550824095 /home/rmukhia/code/sched/Scheduling/include/Machine.h
+	<vector>
+	"Job.h"
+	"Date.h"
+
+1550828212 /home/rmukhia/code/sched/Scheduling/include/Date.h
+	<istream>
+	<ostream>
+
+1550828311 source:/home/rmukhia/code/sched/Scheduling/src/Date.cpp
+	"Date.h"
+	<stdio.h>
+
