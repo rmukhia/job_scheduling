@@ -60,7 +60,6 @@ void Machine::printResults()
     }
     std::cout << std::endl;
     std::cout << "Completion Time: " << total_time << " minutes." << std::endl;
-    std::cout << "Tardiness: " << tardiness << " days." << std::endl;
 }
 
 void Machine::clearMachine()
@@ -87,5 +86,9 @@ int Machine::getTotalSetupTime()
 }
 
 
+int Machine::getTotalTardiness()
+{
+    return tardiness;
+}
 
 

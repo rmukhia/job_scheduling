@@ -25,6 +25,7 @@ class Machine
         Date start_date;
         Date current_date;
         int getTotalSetupTime();
+        int getTotalTardiness();
     protected:
     private:
         int id;

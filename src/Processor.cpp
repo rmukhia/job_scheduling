@@ -220,7 +220,7 @@ void Processor::scheduleJobs(RULE rule)
         if (result.size() == 0)
             continue;
         int new_job = result.front()->getId();
-        machine->addJob(result.front(), setup_time[last_job][new_job]);
+        machine->addJob(result.front(), setup_time[new_job][last_job]);
         jobs_.erase(std::remove(jobs_.begin(), jobs_.end(), result.front()), jobs_.end());
     }
 }
@@ -242,9 +242,11 @@ void Processor::printResults()
 {
     Date *makespan = 0x0;
     int total_setup_time = 0;
+    int total_tardiness = 0;
     for(unsigned int i = 0; i < machines.size(); i++) {
         machines[i]->printResults();
         total_setup_time +=  machines[i]->getTotalSetupTime();
+        total_tardiness += machines[i]->getTotalTardiness();
         if (!makespan) makespan = &machines[i]->current_date;
         if (machines[i]->getCurrentDate().compare(*makespan) > 0) {
             makespan = &machines[i]->current_date;
@@ -254,6 +256,7 @@ void Processor::printResults()
     std::cout << std::endl;
     std::cout << "Makespan: " << (*makespan) << std::endl;
     std::cout << "Total Setup Time: " << total_setup_time << std::endl;
+    std::cout << "Tardiness: " << total_tardiness << std::endl;
 }
 
 void Processor::clearMachines()
@@ -261,5 +264,4 @@ void Processor::clearMachines()
     for(unsigned int i = 0; i < machines.size(); i++) {
         machines[i]->clearMachine();
     }
-
 }
