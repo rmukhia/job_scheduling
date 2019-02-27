@@ -60,7 +60,6 @@ void Machine::printResults()
     }
     std::cout << std::endl;
     std::cout << "Completion Time: " << total_time << " minutes." << std::endl;
-    std::cout << "Total Setup Time: " << total_setup_time << " minutes." << std::endl;
     std::cout << "Tardiness: " << tardiness << " days." << std::endl;
 }
 
@@ -81,6 +80,12 @@ Date Machine::getCurrentDate()
 {
     return current_date;
 }
+
+int Machine::getTotalSetupTime()
+{
+    return total_setup_time;
+}
+
 
 
 

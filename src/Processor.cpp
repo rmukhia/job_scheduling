@@ -97,15 +97,14 @@ std::vector<Job*> Processor::ssuit_schedule(Machine *machine, std::vector<Job*> 
 {
     std::vector<Job*> result;
     int job_id = machine->getLastJobId();
-    int *setup_time_cur_job = setup_time[job_id];
     int shortest_setup_time = 999999;
     for (unsigned int i =0; i< jobs.size(); i++) {
         Job * job = jobs[i];
         if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
             break;
         if (job->getId() != job_id &&
-                shortest_setup_time > setup_time_cur_job[job->getId()]) {
-            shortest_setup_time = setup_time_cur_job[job->getId()];
+                shortest_setup_time > setup_time[job->getId()][job_id]) {
+            shortest_setup_time = setup_time[job->getId()][job_id];
         }
     }
 
@@ -113,8 +112,10 @@ std::vector<Job*> Processor::ssuit_schedule(Machine *machine, std::vector<Job*> 
         Job * job = jobs[i];
         if (job->getMachinePriority() != -1 && job->getMachinePriority() != machine->getId())
             break;
+
+
         if (job->getId() != job_id &&
-                setup_time_cur_job[job->getId()] == shortest_setup_time) {
+                setup_time[job->getId()][job_id] == shortest_setup_time) {
             result.push_back(job);
         }
     }
@@ -216,6 +217,8 @@ void Processor::scheduleJobs(RULE rule)
         }
 
         int last_job = machine->getLastJobId();
+        if (result.size() == 0)
+            continue;
         int new_job = result.front()->getId();
         machine->addJob(result.front(), setup_time[last_job][new_job]);
         jobs_.erase(std::remove(jobs_.begin(), jobs_.end(), result.front()), jobs_.end());
@@ -238,8 +241,10 @@ Machine *Processor::findNextToProcessMachine()
 void Processor::printResults()
 {
     Date *makespan = 0x0;
+    int total_setup_time = 0;
     for(unsigned int i = 0; i < machines.size(); i++) {
         machines[i]->printResults();
+        total_setup_time +=  machines[i]->getTotalSetupTime();
         if (!makespan) makespan = &machines[i]->current_date;
         if (machines[i]->getCurrentDate().compare(*makespan) > 0) {
             makespan = &machines[i]->current_date;
@@ -248,6 +253,7 @@ void Processor::printResults()
     }
     std::cout << std::endl;
     std::cout << "Makespan: " << (*makespan) << std::endl;
+    std::cout << "Total Setup Time: " << total_setup_time << std::endl;
 }
 
 void Processor::clearMachines()

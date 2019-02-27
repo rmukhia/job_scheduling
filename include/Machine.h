@@ -24,6 +24,7 @@ class Machine
         Date getCurrentDate();
         Date start_date;
         Date current_date;
+        int getTotalSetupTime();
     protected:
     private:
         int id;

@@ -56,7 +56,6 @@ int main()
     cout << "Enter number of jobs: " << endl;
     cin >> num_jobs;
     processor->setNumJobs(num_jobs, last_job);
-
     while(true) {
         run(last_job, processor);
         last_job = num_jobs;
